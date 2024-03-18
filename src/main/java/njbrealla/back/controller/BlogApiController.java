@@ -10,6 +10,7 @@ import njbrealla.back.repository.BlogRepository;
 import njbrealla.back.service.BlogService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,4 +33,20 @@ public class BlogApiController {
                 .body(savedArticle);
 
     }
+
+
+    @GetMapping("/api/articles")
+    public ResponseEntity<List<ArticleResponse>>findAllArticles() {
+        List<ArticleResponse> article = blogService.findAll()
+                .stream()
+                .map(ArticleResponse::new)
+                .toList();
+
+        return ResponseEntity.ok()
+                .body(article);
+    }
 }
+/*
+* GET 요청이 오면 글 전체를 조회하는 findALL()메서드를
+* 호출한 다음 응답용 객체인 ArticleResponse로 파싱해 body에 담아
+* 클라이언트에게 전송한다.*/
