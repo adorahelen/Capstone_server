@@ -22,6 +22,14 @@ dependencies {
     compileOnly'org.projectlombok:lombok'
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    annotationProcessor('org.projectlombok:lombok') // 주석1
+    testAnnotationProcessor('org.projectlombok:lombok') //주석1
+    // https://goyunji.tistory.com/96 주석1
+    /*프로젝트에서 진행한 사용자 정의 어노테이션은 해당 부분 컴파일 시점에  찾게된다.
+    * 하지만, 그 이전에 어노테이션 프로세서서가 선수로 존재해야하기에 위에 두줄 추가*/
+
+
+
 }
 
 tasks.named('test') {

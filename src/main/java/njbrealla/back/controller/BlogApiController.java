@@ -1,9 +1,11 @@
-/*
 package njbrealla.back.controller;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import njbrealla.back.domain.Article;
 import njbrealla.back.dto.AddArticleRequest;
+import njbrealla.back.dto.ArticleResponse;
+
 import njbrealla.back.repository.BlogRepository;
 import njbrealla.back.service.BlogService;
 import org.springframework.http.HttpStatus;
@@ -19,7 +21,9 @@ public class BlogApiController {
     private final BlogService blogService;
 
     @PostMapping("/api/articles")
-    public ResponseEntity<Article> addArticle9@RequestBody AddArticleRequest request) {
+    public ResponseEntity<Article> addArticle(@RequestBody AddArticleRequest
+    request) {
+        // '(' => '9' 를 입력했음 ;
         Article savedArticle = blogService.save(request);
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -27,4 +31,3 @@ public class BlogApiController {
 
     }
 }
-*/
