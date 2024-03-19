@@ -21,5 +21,13 @@ public class BlogService {
     public List<Article> findAll() {
         return blogRepository.findAll();
     }
+
+    public Article findById(long id) {
+        return blogRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("not found: " + id));
+    }
+
+
+
 }
 // 빈을 생성한다. 서블릿 컨테이너에 등록한다. 데이터베이스에 저장한다.

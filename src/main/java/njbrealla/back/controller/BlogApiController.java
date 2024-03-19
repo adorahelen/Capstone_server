@@ -10,10 +10,7 @@ import njbrealla.back.repository.BlogRepository;
 import njbrealla.back.service.BlogService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController // HTTP Response Body에 객체 데이터를 JSON 형식으로 반환하는 컨트롤러
@@ -45,6 +42,15 @@ public class BlogApiController {
         return ResponseEntity.ok()
                 .body(article);
     }
+
+    @GetMapping("/api/articles/{id}")
+    public ResponseEntity<ArticleResponse>findArticle(@PathVariable long id) {
+        Article article = blogService.findById(id);
+
+        return ResponseEntity.ok()
+                .body( new ArticleResponse(article));
+    }
+
 }
 /*
 * GET 요청이 오면 글 전체를 조회하는 findALL()메서드를
