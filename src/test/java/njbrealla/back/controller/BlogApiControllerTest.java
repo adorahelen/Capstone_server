@@ -3,7 +3,9 @@ package njbrealla.back.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import njbrealla.back.domain.Article;
 import njbrealla.back.dto.AddArticleRequest;
+import njbrealla.back.dto.UpdateArticleRequest;
 import njbrealla.back.repository.BlogRepository;
+import org.hibernate.sql.Update;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -131,7 +133,58 @@ class BlogApiControllerTest {
                 .andExpect(jsonPath("$.title").value(title));
     }
 
+    @DisplayName("deleteArticle: 블로그 글 삭제에 성공한다.")
+    @Test
+    public void deleteArticle() throws Exception {
+        // given
+        final String url = "/api/articles/{id}";
+        final String title = "title";
+        final String content = "content";
 
+        Article savedArticle = blogRepository.save(Article.builder()
+                .title(title)
+                .content(content)
+                .build());
 
+        mockMvc.perform(delete(url, savedArticle.getId()))
+                .andExpect(status().isOk());
 
+        List<Article>articles = blogRepository.findAll();
+
+        assertThat(articles).isEmpty();
+
+    }
+
+    @DisplayName("updateArticle: 블로그 글 수정에 성공한다.")
+    @Test
+    public void updateArticle() throws Exception {
+        //given 블로그 글을 저장하고, 블로그 글 수정에 필요한 요청 객체를 만듭니다.
+        final String url = "/api/articles/{id}";
+        final String title = "title";
+        final String content = "content";
+
+        Article saveArticle = blogRepository.save(Article.builder()
+                .title(title)
+                .content(content)
+                .build());
+
+        final String newTitle = "new title";
+        final String newContent = "new content";
+
+        UpdateArticleRequest request = new UpdateArticleRequest(newTitle, newContent);
+
+        // when UPDATE API로 수정 요청을 보냅니다.
+        // 이때 요청 타입은 JSON 이며, given 절에서 미리 만들어둔 객체를 요청 본문으로 함께 보냅니다.
+        ResultActions result = mockMvc.perform(put(url, saveArticle.getId())
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(objectMapper.writeValueAsString(request)));
+
+        // Then 응답 코드가 200 OK 인지 확인합니다. 블로그 글 id로 조회한 후에 값이 수정되었는지 확인합니다.
+        result.andExpect(status().isOk());
+
+        Article article = blogRepository.findById(saveArticle.getId()).get();
+
+        assertThat(article.getTitle()).isEqualTo(newTitle);
+        assertThat(article.getContent()).isEqualTo(newContent);
+    }
 }
