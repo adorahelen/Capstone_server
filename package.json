@@ -1,0 +1,11 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "<개요> \r 1. 보행자의 안전을 지키는 스마트 우산 (GPS를 통한 네비게이션 기능)\r 2. 손쉽게 대여 가능한 전자 대여 서비스 (RFID 이용)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
