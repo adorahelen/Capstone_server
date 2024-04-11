@@ -25,6 +25,7 @@ public class BlogViewController {
                     .map(ArticleListViewResponse::new)
                     .toList();
             model.addAttribute("articles", articles);
+            // 모델에 블로그 글 리스트 저장 MVC 모델에서 M : MODEL
 
             return "articleList";
         }
